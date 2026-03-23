@@ -1,19 +1,19 @@
 class Curso():
-    def __init__(self, CO_CURSO: int, NOME: str):
-        self.__CO_CURSO = CO_CURSO
-        self.__NOME = NOME
+    def __init__(self, co_curso: int, nome: str):
+        self.__co_curso = co_curso
+        self.__nome = nome
 
 #: ID do curso
     @property
     def get_id(self):
-        return self.__CO_CURSO
+        return self.__co_curso
     
 
 #: Nome do curso:
     @property
-    def NOME(self):
-        return self.__NOME
+    def nome(self):
+        return self.__nome
 
-    @NOME.setter
-    def NOME(self, new_NOME: str):
-        self.__NOME = new_NOME.strip()
+    @nome.setter
+    def nome(self, new_NOME: str):
+        self.__nome = new_nome.strip()

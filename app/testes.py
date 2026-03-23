@@ -1,22 +1,41 @@
-from utils.save_env import save_env
 from dotenv import load_dotenv
 import os
-print(os.getcwd())
 
-load_dotenv("backend/.env")
+load_dotenv("app/.env")
 
-x = os.getenv("var_teste")
+cursos_id_control = os.getenv("cursos_id_control")
+alunos_id_control = os.getenv("alunos_id_control")
 
-x = int(x)
-print(f"chegou como {x}")
+print(cursos_id_control)
 
-x += 1
+"""
+string = " vitor "
+string = string.strip()
 
-y = str(x)
-print(type(x))
+print(f"a{string}a")
+"""
 
-r = save_env("var_teste", y)
-print(r)
+"""dicionario = {"teste": "  valor  ", "teste2": "  valor2  "}
 
-if r == True:
-    print(f"saiu como {x}")
+for chave in dicionario.keys():
+    print(f"{chave}: {dicionario[chave]} =>", end= " ")
+    dicionario[chave] = dicionario[chave].strip()
+    print(f"{chave}: {dicionario[chave]}")"""
+
+"""
+dicionario = {"sg_sexo": None}
+
+if dicionario["sg_sexo"]: if has value
+    print(True)
+else:
+    print(False) :if not value
+"""
+
+"""dicionario = {"sg_sexo": False}
+
+for chave in dicionario:
+    if chave == "sg_sexo" and not dicionario[chave]:
+        print("a")
+
+string = "abcdê"
+print(string.isalpha())"""
