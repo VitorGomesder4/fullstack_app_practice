@@ -4,3 +4,4 @@ database/
 backend/testes.py
 __pycache__
 temp
+testes.py
