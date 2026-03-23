@@ -4,6 +4,7 @@ from models.curso import Curso
 from models.aluno import ALUNO
 from utils.save_env import save_env
 import mysql.connector
+import re
 import os
 import time
 
@@ -15,15 +16,7 @@ DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_DATABASE = os.getenv("DB_DATABASE")
 
-cursos_id_control = os.getenv("cursos_id_control")
-alunos_id_control = os.getenv("alunos_id_control")
-
-cursos_id_control = str(cursos_id_control)
-
-cursos_id_control = int(cursos_id_control)
-alunos_id_control = int(alunos_id_control)
-
-print(type(cursos_id_control))
+ealpha_numerico = re.match(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$", data[chave])
 
 #Creating database connection
 db = mysql.connector.connect(host = DB_HOST, user = DB_USER, password = DB_PASSWORD, database = DB_DATABASE)
@@ -32,7 +25,7 @@ db = mysql.connector.connect(host = DB_HOST, user = DB_USER, password = DB_PASSW
 app = Flask(__name__)
 
 lista_cursos_objects = []
-lista_alunos_objetcts = []
+lista_alunos_objects = []
 
 @app.route("/", methods=["GET"])
 def home():
@@ -42,7 +35,7 @@ def home():
 def exibir_cursos():
     return render_template("cursos.html")
 
-@app.route("/registrar_aluno")
+@app.route("/registrar_aluno", methods=['POST'])
 def registrar_aluno():
     global alunos_id_control
     """ TABLE ALUNO:
@@ -61,7 +54,7 @@ def registrar_aluno():
         "no_mae"
         }
 
-    if not data or not campos_obrigatorios.issubset(data.keys):
+    if not data or not campos_obrigatorios.issubset(data.keys()):
         return jsonify({"message": "error data required"}), 400
 
     for chave in data:
@@ -69,30 +62,30 @@ def registrar_aluno():
             continue
 
         elif not data[chave]:
-            data[chave] = "NULL"
+            data[chave] = None
             
         data[chave] = data[chave].strip()
 
         if chave == "sg_sexo":
             if len(data[chave]) != 1 or data[chave].lower() not in ["m", "f"]:
-                data[chave] = "NULL"
+                data[chave] = None
 
         elif chave == "co_estadocivil":
             if len(data[chave]) != 1 or data[chave] not in ['1', '2', '3', '4', '5', '6']:
-                data[chave] = "NULL"
+                data[chave] = None
 
         elif chave == "nome":
-            if len(data[chave]) > 20 or not data[chave].isalpha():
-                data[chave] = "NULL"
+            if len(data[chave]) > 20 or not ealpha_numerico:
+                data[chave] = None
         
-        elif chave == "no_pai" or "no_mae":
-            if len(data[chave]) > 70 or not data[chave].isalpha():
-                data[chave] = "NULL"
+        elif chave == "no_pai" or chave == "no_mae":
+            if len(data[chave]) > 70 or not ealpha_numerico:
+                data[chave] = None
             
-        
+    """    
     new_aluno = ALUNO(
         alunos_id_control, 
-        data["dt_nascimeto"], #datetime
+        data["dt_nascimento"], #datetime
         data["sg_sexo"], #size_limit of 1 char
         data["nome"], #size_limit of 20 char
         data["co_estadocivil"], #size_limit of 1 char
@@ -101,15 +94,21 @@ def registrar_aluno():
         )
 
     lista_alunos_objetcts.append(new_aluno)
+    """
 
     cursor = db.cursor()
 
-    cursor.execute("INSERT INTO ALUNO (CO_ALUNO, DT_NASCIMENTO) VALUES (%s, %s)", (alunos_id_control, data['dt_nascimeto']))
+    cursor.execute(
+        "INSERT INTO ALUNO (DT_NASCIMENTO, SG_SEXO, NOME, CO_ESTADOCIVIL, NO_PAI, NO_MAE) VALUES (%s, %s, %s, %s, %s, %s)",
+        (data['dt_nascimento'], data['sg_sexo'], data['nome'], data['co_estadocivil'], data['no_pai'], data['no_mae'])
+        )
     db.commit()
 
     alunos_id_control += 1
 
     save_env("alunos_id_control", alunos_id_control)
+
+    return jsonify({"message": "Aluno registrado com sucesso!"}), 200
 
 
 @app.route("/cursos/registrar", methods=["POST"])
