@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="../static/registrar_cursos.css">
+<script src="../static/registrar_novo_aluno.js"></script>
+
+<form class="form-example">
+
+    <div class="form-example">
+        <label for="nome">Nome: </label>
+        <input type="text" name="nome" id="nome" />
+    </div>
+
+    <div class="form-example">
+        <label for="sg_sexo">Sexo: </label>
+        <select name="sg_sexo" id="sg_sexo" required>
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="">Nenhum</option>
+        </select>
+    </div>
+
+    <div class="form-example">
+        <label for="co_estadocivil">Estado Civil: </label>
+        <select name="co_estadocivil" id="co_estadocivil" required>
+            <option value="">Selecione</option>
+            <option value="1">Solteiro(a)</option>
+            <option value="2">Casado(a)</option>
+            <option value="3">Divorciado(a)</option>
+            <option value="4">Viúvo(a)</option>
+            <option value="5">Separado(a) judicialmente</option>
+            <option value="">nenhum</option>
+        </select>
+    </div>
+
+    <div class="form-example">
+        <label for="no_pai">Nome do pai: </label>
+        <input type="text" name="no_pai" id="no_pai" />
+    </div>
+
+    <div class="form-example">
+        <label for="no_mae">Nome da mae: </label>
+        <input type="text" name="no_mae" id="no_mae" />
+    </div>
+
+    <div class="form-example">
+        <label for="dt_nascimento">Data de Nascimento: </label>
+        <input type="date" id="dt_nascimento" name="dt_nascimento" required />
+    </div>
+
+
+  <div class="form-example">
+    <button type="button" onclick="registrar_novo_aluno(
+        document.getElementById('dt_nascimento').value,
+        document.getElementById('sg_sexo').value,
+        document.getElementById('nome').value,
+        document.getElementById('co_estadocivil').value,
+        document.getElementById('no_pai').value,
+        document.getElementById('no_mae').value
+        )">
+      registrar
+    </button>
+  </div>
+
+</form>
