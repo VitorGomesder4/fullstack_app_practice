@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="../static/global.css">
+<script src="../static/registrar_novo_professor.js"></script>
+
+<form class="form-example">
+
+    <div class="form-example">
+        <label for="nome">Nome: </label>
+        <input type="text" name="nome" id="nome" />
+    </div>
+
+    <div class="form-example">
+        <label for="sg_sexo">Sexo: </label>
+        <select name="sg_sexo" id="sg_sexo" required>
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="">Nenhum</option>
+        </select>
+    </div>
+
+    <div class="form-example">
+        <label for="dt_nascimento">Data de Nascimento: </label>
+        <input type="date" id="dt_nascimento" name="dt_nascimento" required />
+    </div>
+
+
+  <div class="form-example">
+    <button type="button" onclick="registrar_novo_professor(
+        document.getElementById('sg_sexo').value,
+        document.getElementById('nome').value,
+        document.getElementById('dt_nascimento').value
+        )">
+      registrar
+    </button>
+  </div>
+
+</form>

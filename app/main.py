@@ -38,6 +38,10 @@ def exibir_cursos():
 def exibir_alunos():
     return render_template("registrar_alunos.html")
 
+@app.route("/professor", methods=["GET"])
+def exibir_professor():
+    return render_template("registrar_professor.html")
+
 @app.route("/alunos/registrar_aluno", methods=['POST'])
 def registrar_aluno():
     """ TABLE ALUNO:
