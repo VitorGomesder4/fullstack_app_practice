@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+"""from dotenv import load_dotenv
 import os
 
 load_dotenv("app/.env")
@@ -6,7 +6,7 @@ load_dotenv("app/.env")
 cursos_id_control = os.getenv("cursos_id_control")
 alunos_id_control = os.getenv("alunos_id_control")
 
-print(cursos_id_control)
+print(cursos_id_control)"""
 
 """
 string = " vitor "
@@ -39,3 +39,8 @@ for chave in dicionario:
 
 string = "abcdê"
 print(string.isalpha())"""
+
+string = "a"
+
+if string:
+    print(True)

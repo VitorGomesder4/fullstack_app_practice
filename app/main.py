@@ -7,6 +7,7 @@ import mysql.connector
 import re
 import os
 import time
+import datetime as dt
 
 #Loading .env file and creating environment variables
 load_dotenv(".env")
@@ -15,8 +16,6 @@ DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_DATABASE = os.getenv("DB_DATABASE")
-
-ealpha_numerico = re.match(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$", data[chave])
 
 #Creating database connection
 db = mysql.connector.connect(host = DB_HOST, user = DB_USER, password = DB_PASSWORD, database = DB_DATABASE)
@@ -35,9 +34,12 @@ def home():
 def exibir_cursos():
     return render_template("cursos.html")
 
-@app.route("/registrar_aluno", methods=['POST'])
+@app.route("/alunos", methods=["GET"])
+def exibir_alunos():
+    return render_template("registrar_alunos.html")
+
+@app.route("/alunos/registrar_aluno", methods=['POST'])
 def registrar_aluno():
-    global alunos_id_control
     """ TABLE ALUNO:
         CO_ALUNO, DT_NASCIMENTO, SG_SEXO, NOME,       CO_ESTADOCIVIL, NO_PAI,     NO_MAE
         INT       DATETIME       CHAR(1)  VARCHAR(20) CHAR(1)         VARCHAR(70) VARCHAR(70)
@@ -58,11 +60,15 @@ def registrar_aluno():
         return jsonify({"message": "error data required"}), 400
 
     for chave in data:
-        if chave == "dt_nascimento":
-            continue
+
+        ealpha_numerico = re.match(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$", data[chave])
+
+        if chave == "dt_nascimento" and data[chave]:
+            pass
 
         elif not data[chave]:
             data[chave] = None
+            continue
             
         data[chave] = data[chave].strip()
 
@@ -71,7 +77,7 @@ def registrar_aluno():
                 data[chave] = None
 
         elif chave == "co_estadocivil":
-            if len(data[chave]) != 1 or data[chave] not in ['1', '2', '3', '4', '5', '6']:
+            if len(data[chave]) != 1 or data[chave] not in ['1', '2', '3', '4', '5']:
                 data[chave] = None
 
         elif chave == "nome":
@@ -84,7 +90,6 @@ def registrar_aluno():
             
     """    
     new_aluno = ALUNO(
-        alunos_id_control, 
         data["dt_nascimento"], #datetime
         data["sg_sexo"], #size_limit of 1 char
         data["nome"], #size_limit of 20 char
@@ -104,16 +109,11 @@ def registrar_aluno():
         )
     db.commit()
 
-    alunos_id_control += 1
-
-    save_env("alunos_id_control", alunos_id_control)
-
     return jsonify({"message": "Aluno registrado com sucesso!"}), 200
 
 
 @app.route("/cursos/registrar", methods=["POST"])
 def registrar_curso():
-    global cursos_id_control
     """ TABLE CURSO:
         CO_CURSO INTEGER PRIMARY KEY
         NOME CHAR(40) NULL
@@ -134,7 +134,6 @@ def registrar_curso():
 
     """
     new_curso = Curso(
-        co_curso = cursos_id_control,
         nome = data["nome_do_curso_key"]
     )
     lista_cursos_objects.append(new_curso)
@@ -144,10 +143,6 @@ def registrar_curso():
 
     cursor.execute("INSERT INTO CURSO (NOME) VALUES (%s)", (data['nome_do_curso_key'],))
     db.commit()
-
-    cursos_id_control += 1
-
-    save_env("cursos_id_control", cursos_id_control)
 
     return jsonify({"message": f"Curso {data['nome_do_curso_key']} registrado com sucesso!"})
     
