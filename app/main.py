@@ -42,7 +42,7 @@ def exibir_alunos():
 def exibir_professor():
     return render_template("registrar_professor.html")
 
-@app.route("/registrar_disciplina")
+@app.route("/registrar_disciplina", methods=['POST'])
 def registrar_disciplina():
     """
     +---------------+-------------+------+-----+---------+-------+
@@ -56,7 +56,7 @@ def registrar_disciplina():
     data = request.get_json()
     pass
 
-@app.route("/professores/registrar_professor")
+@app.route("/professores/registrar_professor", methods=['POST'])
 def registrar_professor():
     """
     +---------------+-------------+------+-----+---------+-------+
