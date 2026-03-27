@@ -54,29 +54,52 @@ def registrar_disciplina():
     2 rows in set (0,001 sec)
     """
     data = request.get_json()
-    pass
+
+    cursor = db.cursor()
+
+    cursor.execute(
+        "INSERT INTO DISCIPLINA (CO_DISCIPLINA, NO_DISCIPLINA) VALUES (%s, %s)",
+        (data['co_disciplina'], data['no_disciplina'])
+        )
+    db.commit()
+    
 
 @app.route("/professores/registrar_professor", methods=['POST'])
 def registrar_professor():
     """
-    +---------------+-------------+------+-----+---------+-------+
-    | Field         | Type        | Null | Key | Default | Extra |
-    +---------------+-------------+------+-----+---------+-------+
-    | CO_PROFESSOR  | int(11)     | NO   | PRI | NULL    |       |
-    | SG_SEXO       | char(1)     | YES  |     | NULL    |       |
-    | NOME          | varchar(20) | YES  |     | NULL    |       |
-    | DT_NASCIMENTO | datetime    | YES  |     | NULL    |       |
-    +---------------+-------------+------+-----+---------+-------+
+    +---------------+-------------+------+-----+---------+----------------+
+    | Field         | Type        | Null | Key | Default | Extra          |
+    +---------------+-------------+------+-----+---------+----------------+
+    | CO_PROFESSOR  | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | SG_SEXO       | char(1)     | YES  |     | NULL    |                |
+    | NOME          | varchar(20) | YES  |     | NULL    |                |
+    | DT_NASCIMENTO | datetime    | YES  |     | NULL    |                |
+    +---------------+-------------+------+-----+---------+----------------+
     4 rows in set (0,001 sec)
     """
     data = request.get_json()
-    pass
+    
+    cursor.execute(
+        "INSERT INTO PROFESSOR (SG_SEXO, NOME, DT_NASCIMENTO) VALUES (%s, %s)",
+        (data['sg_sexo'], data['nome'], data['dt_nascimento'])
+        )
+    db.commit()
 
 @app.route("/alunos/registrar_aluno", methods=['POST'])
 def registrar_aluno():
-    """ TABLE ALUNO:
-        CO_ALUNO, DT_NASCIMENTO, SG_SEXO, NOME,       CO_ESTADOCIVIL, NO_PAI,     NO_MAE
-        INT       DATETIME       CHAR(1)  VARCHAR(20) CHAR(1)         VARCHAR(70) VARCHAR(70)
+    """ 
+    +----------------+-------------+------+-----+---------+----------------+
+    | Field          | Type        | Null | Key | Default | Extra          |
+    +----------------+-------------+------+-----+---------+----------------+
+    | CO_ALUNO       | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | DT_NASCIMENTO  | datetime    | YES  |     | NULL    |                |
+    | SG_SEXO        | char(1)     | YES  |     | NULL    |                |
+    | NOME           | varchar(20) | YES  |     | NULL    |                |
+    | CO_ESTADOCIVIL | char(1)     | YES  |     | NULL    |                |
+    | NO_PAI         | varchar(70) | YES  |     | NULL    |                |
+    | NO_MAE         | varchar(70) | YES  |     | NULL    |                |
+    +----------------+-------------+------+-----+---------+----------------+
+    7 rows in set (0,001 sec)
     """
 
     data = request.get_json()
@@ -148,9 +171,14 @@ def registrar_aluno():
 
 @app.route("/cursos/registrar", methods=["POST"])
 def registrar_curso():
-    """ TABLE CURSO:
-        CO_CURSO INTEGER PRIMARY KEY
-        NOME CHAR(40) NULL
+    """ 
+    +----------+----------+------+-----+---------+----------------+
+    | Field    | Type     | Null | Key | Default | Extra          |
+    +----------+----------+------+-----+---------+----------------+
+    | CO_CURSO | int(11)  | NO   | PRI | NULL    | auto_increment |
+    | NOME     | char(40) | YES  |     | NULL    |                |
+    +----------+----------+------+-----+---------+----------------+
+    2 rows in set (0,001 sec)
     """
 
     data = request.get_json()
