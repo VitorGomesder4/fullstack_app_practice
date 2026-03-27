@@ -42,6 +42,36 @@ def exibir_alunos():
 def exibir_professor():
     return render_template("registrar_professor.html")
 
+@app.route("/registrar_disciplina")
+def registrar_disciplina():
+    """
+    +---------------+-------------+------+-----+---------+-------+
+    | Field         | Type        | Null | Key | Default | Extra |
+    +---------------+-------------+------+-----+---------+-------+
+    | CO_DISCIPLINA | char(2)     | NO   | PRI | NULL    |       |
+    | NO_DISCIPLINA | varchar(30) | YES  |     | NULL    |       |
+    +---------------+-------------+------+-----+---------+-------+
+    2 rows in set (0,001 sec)
+    """
+    data = request.get_json()
+    pass
+
+@app.route("/professores/registrar_professor")
+def registrar_professor():
+    """
+    +---------------+-------------+------+-----+---------+-------+
+    | Field         | Type        | Null | Key | Default | Extra |
+    +---------------+-------------+------+-----+---------+-------+
+    | CO_PROFESSOR  | int(11)     | NO   | PRI | NULL    |       |
+    | SG_SEXO       | char(1)     | YES  |     | NULL    |       |
+    | NOME          | varchar(20) | YES  |     | NULL    |       |
+    | DT_NASCIMENTO | datetime    | YES  |     | NULL    |       |
+    +---------------+-------------+------+-----+---------+-------+
+    4 rows in set (0,001 sec)
+    """
+    data = request.get_json()
+    pass
+
 @app.route("/alunos/registrar_aluno", methods=['POST'])
 def registrar_aluno():
     """ TABLE ALUNO:
